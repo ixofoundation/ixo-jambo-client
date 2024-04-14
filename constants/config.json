@@ -165,6 +165,18 @@
       "name": "Text Proposal",
       "description": "Create a text proposals on the IXO Network",
       "image": "eKXPPhewkJDLbE1bq1iboa.png"
+    },
+    {
+      "id": "eKXPPhewkJDLbE1bq1ibod5",
+      "steps": [
+        {
+          "id": "swap_tokens",
+          "name": "Swap Tokens"
+        }
+      ],
+      "name": "Swap Tokens",
+      "description": "Swap your tokens on the IXO network.",
+      "image": "eKXPPhewkJDLbE1bq1ibod.png"
     }
   ]
 }

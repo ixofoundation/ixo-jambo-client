@@ -1,35 +1,50 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { WalletContext } from '@contexts/wallet';
+import Card, { CARD_SIZE } from '@components/Card/Card';
 import Loader from '@components/Loader/Loader';
 import TokenCard from '@components/TokenCard/TokenCard';
-import { groupWalletAssets } from '@utils/wallets';
-import Card, { CARD_SIZE } from '@components/Card/Card';
-import { TOKEN_BALANCE } from 'types/wallet';
+import { WalletContext } from '@contexts/wallet';
 import {
   getCoinImageUrlFromCurrencyToken,
   getDenomFromCurrencyToken,
   getDisplayDenomFromCurrencyToken,
   getTokenTypeFromCurrencyToken,
 } from '@utils/currency';
+import { groupWalletAssets, groupWalletSwapAssets } from '@utils/wallets';
+import { CURRENCY_TOKEN, TOKEN_BALANCE } from 'types/wallet';
 
 type TokenListProps = {
   displayGradient?: boolean;
+  displaySwapOptions?: boolean;
+  includeNonNativeTokens?: boolean;
   onTokenClick: (denom: string) => void;
   filter?: (asset: TOKEN_BALANCE) => boolean;
+  options?: CURRENCY_TOKEN[];
 };
 
-const TokenList = ({ displayGradient, filter = () => true, onTokenClick }: TokenListProps) => {
+const TokenList = ({
+  displayGradient,
+  displaySwapOptions,
+  filter = () => true,
+  onTokenClick,
+  options,
+  includeNonNativeTokens = false,
+}: TokenListProps) => {
   const [tokens, setTokens] = useState<TOKEN_BALANCE[] | undefined>();
   const { wallet } = useContext(WalletContext);
 
   useEffect(() => {
-    const assets = groupWalletAssets(
-      wallet.balances?.data ?? [],
-      wallet.delegations?.data ?? [],
-      wallet.unbondingDelegations?.data ?? [],
-    );
-    setTokens(assets);
+    const balances = wallet.balances?.data ?? [];
+    const assets = displaySwapOptions
+      ? groupWalletSwapAssets(balances, wallet.tokenBalances?.data ?? [])
+      : groupWalletAssets(
+          balances,
+          wallet.delegations?.data ?? [],
+          wallet.unbondingDelegations?.data ?? [],
+          includeNonNativeTokens ? wallet.tokenBalances?.data : [],
+        );
+    const optionDenoms = options?.map((option) => option.denom);
+    setTokens(optionDenoms && optionDenoms.length ? assets.filter((a) => optionDenoms?.includes(a.denom)) : assets);
   }, [wallet.loading]);
 
   return (

@@ -1,16 +1,20 @@
+import { useState } from 'react';
+
 import { useRouter } from 'next/router';
 
-import styles from './Footer.module.scss';
+import Anchor from '@components/Anchor/Anchor';
 import ButtonRound, { BUTTON_ROUND_COLOR, BUTTON_ROUND_SIZE } from '@components/ButtonRound/ButtonRound';
 import ColoredIcon, { ICON_COLOR } from '@components/ColoredIcon/ColoredIcon';
-import Anchor from '@components/Anchor/Anchor';
-import ArrowRight from '@icons/arrow_right.svg';
 import ArrowLeft from '@icons/arrow_left.svg';
+import ArrowRight from '@icons/arrow_right.svg';
 import Correct from '@icons/correct.svg';
-import Wallet from '@icons/wallet.svg';
+import Slider from '@icons/slider.svg';
 import Touch from '@icons/touch.svg';
+import Wallet from '@icons/wallet.svg';
 // import useWindowDimensions from '@hooks/windowDimensions';
 import { backRoute, replaceRoute } from '@utils/router';
+
+import styles from './Footer.module.scss';
 
 type FooterProps = {
   onBackUrl?: string;
@@ -22,6 +26,7 @@ type FooterProps = {
   forwardLabel?: string;
   showAccountButton?: boolean;
   showActionsButton?: boolean;
+  sliderActionButton?: (() => void) | null;
   children?: React.ReactNode;
 };
 
@@ -38,9 +43,11 @@ const Footer = ({
   // forwardLabel,
   showAccountButton,
   showActionsButton,
+  sliderActionButton,
   children,
 }: FooterProps) => {
   // const { width } = useWindowDimensions();
+  const [isSliderActive, setIsSliderActive] = useState<boolean>(false);
   const { asPath } = useRouter();
 
   return (
@@ -53,6 +60,22 @@ const Footer = ({
         >
           <ColoredIcon icon={ArrowLeft} size={24} color={ICON_COLOR.primary} />
           {/* {!!width && width > 425 && <p className={styles.label}>{backLabel ?? 'Back'}</p>} */}
+        </ButtonRound>
+      )}
+      {sliderActionButton !== undefined && (
+        <ButtonRound
+          color={isSliderActive ? BUTTON_ROUND_COLOR.primary : BUTTON_ROUND_COLOR.lightGrey}
+          onClick={
+            sliderActionButton
+              ? () => {
+                  sliderActionButton();
+                  setIsSliderActive((isSliderActive) => !isSliderActive);
+                }
+              : undefined
+          }
+          size={BUTTON_ROUND_SIZE.large}
+        >
+          <ColoredIcon icon={Slider} size={24} color={isSliderActive ? ICON_COLOR.white : ICON_COLOR.primary} />
         </ButtonRound>
       )}
       {showAccountButton && (

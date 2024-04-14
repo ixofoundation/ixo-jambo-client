@@ -1,9 +1,13 @@
-import { cosmos } from '@ixo/impactxclient-sdk';
+import { cosmos, cosmwasm } from '@ixo/impactxclient-sdk';
+import { TxResponse } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/abci/v1beta1/abci';
 import { longify } from '@cosmjs/stargate/build/queryclient';
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin';
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1beta1/gov';
 
 import { TRX_FEE, TRX_FEE_OPTION, TRX_MSG } from 'types/transactions';
+
+import { TokenAmount, TokenSelect } from './../types/swap';
+import { strToArray } from './encoding';
 
 export const defaultTrxFeeOption: TRX_FEE_OPTION = 'average';
 
@@ -48,6 +52,7 @@ export const generateBankSendTrx = ({
     amount: [cosmos.base.v1beta1.Coin.fromPartial({ amount, denom })],
   }),
 });
+
 export const generateBankMultiSendTrx = ({
   fromAddress,
   toAddresses,
@@ -152,6 +157,75 @@ export const generateWithdrawRewardTrx = ({
     validatorAddress,
   }),
 });
+
+export const generateApproveTrx = ({
+  contract,
+  sender,
+  operator,
+}: {
+  contract: string;
+  sender: string;
+  operator: string;
+}): TRX_MSG => ({
+  typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
+  value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
+    contract,
+    msg: strToArray(
+      JSON.stringify({
+        approve_all: {
+          operator,
+        },
+      }),
+    ),
+    sender,
+  }),
+});
+
+export const generateSwapTrx = ({
+  contract,
+  sender,
+  inputTokenSelect,
+  inputTokenAmount,
+  outputTokenAmount,
+  funds,
+}: {
+  contract: string;
+  sender: string;
+  inputTokenSelect: TokenSelect;
+  inputTokenAmount: TokenAmount;
+  outputTokenAmount: TokenAmount;
+  funds: Map<string, string>;
+}): TRX_MSG => ({
+  typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
+  value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
+    contract,
+    msg: strToArray(
+      JSON.stringify({
+        swap: {
+          input_token: inputTokenSelect,
+          input_amount: inputTokenAmount,
+          min_output: outputTokenAmount,
+        },
+      }),
+    ),
+    sender,
+    funds: generateCoins(Array.from(funds.keys()), Array.from(funds.values())),
+  }),
+});
+
+export const getValueFromTrxEvents = (trxRes: TxResponse, event: string, attribute: string) => {
+  const log = JSON.parse(trxRes?.rawLog!);
+
+  for (let i = 0; i < log.length; i++) {
+    const msgEvent = log[i]['events'].find((e: any) => e.type === event);
+
+    if (!msgEvent) continue;
+
+    const eventAttribute = msgEvent['attributes'].find((e: any) => e.key === attribute);
+
+    if (eventAttribute) return eventAttribute['value'];
+  }
+};
 
 export const generateVoteTrx = ({
   proposalId,

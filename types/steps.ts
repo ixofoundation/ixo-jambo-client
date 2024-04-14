@@ -25,6 +25,8 @@ export enum STEPS {
   staking_MsgUndelegate = 'staking_MsgUndelegate',
   staking_MsgRedelegate = 'staking_MsgRedelegate',
   distribution_MsgWithdrawDelegatorReward = 'distribution_MsgWithdrawDelegatorReward',
+  claim = 'claim',
+  swap_tokens = 'swap_tokens',
   gov_MsgVote = 'gov_MsgVote',
   gov_MsgSubmitProposal = 'gov_MsgSubmitProposal',
 }
@@ -129,6 +131,8 @@ export const steps: { [key in STEPS]: STEP } = {
     id: STEPS.distribution_MsgWithdrawDelegatorReward,
     name: 'Review and sign',
   },
+  [STEPS.claim]: { id: STEPS.claim, name: 'Claim' },
+  [STEPS.swap_tokens]: { id: STEPS.swap_tokens, name: 'Swap tokens' },
   [STEPS.gov_MsgVote]: {
     id: STEPS.gov_MsgVote,
     name: 'Review and sign',
@@ -201,6 +205,11 @@ interface Define_proposal_deposit {
 interface Review_and_sign {
   done: boolean;
 }
+interface swap_tokens {
+  data: Select_token_and_amount[];
+  token: CURRENCY_TOKEN;
+  amount: number;
+}
 
 export type AllStepDataTypes =
   | Get_receiver_address
@@ -211,6 +220,7 @@ export type AllStepDataTypes =
   | Check_user_balance
   | Define_amount
   | Send_token_to_receiver
+  | swap_tokens
   | Select_proposal
   | Define_proposal_title
   | Define_proposal_description
@@ -252,6 +262,10 @@ export type StepDataType<T> = T extends STEPS.check_user_balance
   : T extends STEPS.review_and_sign
   ? Review_and_sign
   : T extends STEPS.distribution_MsgWithdrawDelegatorReward
+  ? Review_and_sign
+  : T extends STEPS.claim
+  ? swap_tokens
+  : T extends STEPS.swap_tokens
   ? Review_and_sign
   : T extends STEPS.gov_MsgVote
   ? Review_and_sign
