@@ -11,6 +11,18 @@
   "termsAndConditions": "https://my.jambo.earth/legal/termsOfUse",
   "actions": [
     {
+      "id": "comply_cube",
+      "steps": [
+        {
+          "id": "comply_cube",
+          "name": "ComplyCube KYC Documentation Upload"
+        }
+      ],
+      "name": "ComplyCube",
+      "description": "ComplyCube KYC Documentation Upload",
+      "image": "eKXPPhewkJDLbE1bq1iboa.png"
+    },
+    {
       "id": "kado",
       "steps": [
         {

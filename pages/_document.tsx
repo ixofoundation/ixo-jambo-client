@@ -32,6 +32,8 @@ class MyDocument extends Document {
         </Head>
 
         <body>
+          {/* This is where the ComplyCub Web SDK will be mounted */}
+          <div id='complycube-mount'></div>
           <Main />
           <NextScript />
         </body>

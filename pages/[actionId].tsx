@@ -21,6 +21,7 @@ import ShortTextInput from '@steps/ShortTextInput';
 import LongTextInput from '@steps/LongTextInput';
 import ProposalDeposit from '@steps/ProposalDeposit';
 import KadoBuyCrypto from '@steps/KadoBuyCrypto';
+import ComplyCube from '@steps/ComplyCube';
 
 type ActionPageProps = {
   actionData: ACTION;
@@ -95,6 +96,15 @@ const ActionExecution: NextPage<ActionPageProps> = ({ actionData }) => {
 
   const getStepComponent = (step: STEP) => {
     switch (step?.id) {
+      case STEPS.comply_cube:
+        return (
+          <ComplyCube
+            onSuccess={handleOnNext<STEPS.comply_cube>}
+            onBack={handleBack}
+            data={step.data as StepDataType<STEPS.comply_cube>}
+            header={action?.name}
+          />
+        );
       case STEPS.kado_buy_crypto:
         return (
           <KadoBuyCrypto

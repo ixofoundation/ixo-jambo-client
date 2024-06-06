@@ -10,8 +10,10 @@ declare module '*.module.scss' {
 
 import { Window as KeplrWindow } from '@keplr-wallet/types';
 import { OperaInterchain } from '@utils/opera';
+import { ComplyCubeWindow } from 'types/complycube';
 
 declare global {
   interface Window extends KeplrWindow {}
   interface Window extends OperaInterchain {}
+  interface Window extends ComplyCubeWindow {}
 }
