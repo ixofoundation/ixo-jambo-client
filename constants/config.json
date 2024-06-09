@@ -11,6 +11,18 @@
   "termsAndConditions": "https://my.jambo.earth/legal/termsOfUse",
   "actions": [
     {
+      "id": "signXData",
+      "steps": [
+        {
+          "id": "sign_x_data",
+          "name": "SignX Data Pass"
+        }
+      ],
+      "name": "SignX Data",
+      "description": "SignX Data Pass",
+      "image": "eKXPPhewkJDLbE1bq1iboa.png"
+    },
+    {
       "id": "kado",
       "steps": [
         {

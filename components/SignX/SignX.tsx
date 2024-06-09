@@ -22,6 +22,7 @@ const SignX: FC<SignXProps> = ({ title, subtitle, data, timeout, transactSequenc
   const timeoutFull = (timeout - 1000) / 1000;
   const timeoutThird = timeoutFull / 3;
   const deeplink = convertDataToDeeplink(isNewSession ? data : { type: SIGN_X_CLEAN_DEEPLINK });
+  console.log({ deeplink });
   const downloadLink =
     isIOS || isMacOs
       ? `https://apps.apple.com/app/impacts-x/id6444948058`

@@ -21,6 +21,7 @@ import ShortTextInput from '@steps/ShortTextInput';
 import LongTextInput from '@steps/LongTextInput';
 import ProposalDeposit from '@steps/ProposalDeposit';
 import KadoBuyCrypto from '@steps/KadoBuyCrypto';
+import SignXData from '@steps/SignXData';
 
 type ActionPageProps = {
   actionData: ACTION;
@@ -101,6 +102,15 @@ const ActionExecution: NextPage<ActionPageProps> = ({ actionData }) => {
             onSuccess={handleOnNext<STEPS.kado_buy_crypto>}
             onBack={handleBack}
             data={step.data as StepDataType<STEPS.kado_buy_crypto>}
+            header={action?.name}
+          />
+        );
+      case STEPS.sign_x_data:
+        return (
+          <SignXData
+            onSuccess={handleOnNext<STEPS.sign_x_data>}
+            onBack={handleBack}
+            data={step.data as StepDataType<STEPS.sign_x_data>}
             header={action?.name}
           />
         );

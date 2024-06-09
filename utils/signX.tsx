@@ -6,6 +6,8 @@ import {
   SIGN_X_LOGIN_SUCCESS,
   SIGN_X_TRANSACT_ERROR,
   SIGN_X_TRANSACT_SUCCESS,
+  SIGN_X_DATA_ERROR,
+  SIGN_X_DATA_SUCCESS,
 } from '@ixo/signx-sdk';
 
 import * as Toast from '@components/Toast/Toast';
@@ -163,5 +165,55 @@ export const signXBroadCastMessage = async (
     // remove event listeners
     signXClient.removeAllListeners(SIGN_X_TRANSACT_ERROR);
     signXClient.removeAllListeners(SIGN_X_TRANSACT_SUCCESS);
+  }
+};
+
+let signXDDataPassBusy = false;
+export const signXDataPass = async (jsonData: any, type: string): Promise<string | null> => {
+  if (signXDDataPassBusy) return null;
+  signXDDataPassBusy = true;
+
+  let removeModal: () => void;
+  // callback for when modal is closed manually
+  let onManualCloseModal = (clearSession = true) => {
+    signXClient.stopPolling('Data Pass cancelled', SIGN_X_DATA_ERROR, clearSession);
+  };
+
+  try {
+    if (!signXClient) throw new Error('No signX client initiated');
+
+    // get data pass data from client to start polling and display QR code for key passing
+    const data = await signXClient.dataPass({
+      data: jsonData,
+      type,
+    });
+
+    removeModal = renderModal(
+      <SignXModal title='SignX Data Pass' data={data} timeout={signXClient.timeout} transactSequence={1} />,
+      onManualCloseModal,
+    );
+
+    // wait for data to be passed and handled and SignX to emit success or fail event
+    const eventData: any = await new Promise((resolve, reject) => {
+      const handleSuccess = (data: any) => resolve(data);
+      const handleError = (error: any) => reject(error);
+      signXClient.on(SIGN_X_DATA_SUCCESS, handleSuccess);
+      signXClient.on(SIGN_X_DATA_ERROR, handleError);
+    });
+
+    return eventData.data;
+  } catch (e) {
+    console.error('ERROR::signXBroadCastMessage::', e);
+    Toast.errorToast(`Transaction Failed`);
+    return null;
+  } finally {
+    signXDDataPassBusy = false;
+    // @ts-ignore
+    if (removeModal) removeModal();
+    // @ts-ignore
+    if (onManualCloseModal) onManualCloseModal(false);
+    // remove event listeners
+    signXClient.removeAllListeners(SIGN_X_DATA_ERROR);
+    signXClient.removeAllListeners(SIGN_X_DATA_SUCCESS);
   }
 };
