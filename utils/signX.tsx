@@ -169,7 +169,7 @@ export const signXBroadCastMessage = async (
 };
 
 let signXDDataPassBusy = false;
-export const signXDataPass = async (jsonData: any, type: string): Promise<string | null> => {
+export const signXDataPass = async (jsonData: any, type: string): Promise<any> => {
   if (signXDDataPassBusy) return null;
   signXDDataPassBusy = true;
 
@@ -187,6 +187,7 @@ export const signXDataPass = async (jsonData: any, type: string): Promise<string
       data: jsonData,
       type,
     });
+    console.log({ data });
 
     removeModal = renderModal(
       <SignXModal title='SignX Data Pass' data={data} timeout={signXClient.timeout} transactSequence={1} />,
@@ -201,10 +202,10 @@ export const signXDataPass = async (jsonData: any, type: string): Promise<string
       signXClient.on(SIGN_X_DATA_ERROR, handleError);
     });
 
-    return eventData.data;
-  } catch (e) {
-    console.error('ERROR::signXBroadCastMessage::', e);
-    Toast.errorToast(`Transaction Failed`);
+    return eventData;
+  } catch (e: any) {
+    console.error('ERROR::signXDataPass::', e);
+    Toast.errorToast(`SignX Data Pass Failed: ${e.message}`);
     return null;
   } finally {
     signXDDataPassBusy = false;

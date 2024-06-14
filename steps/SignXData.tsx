@@ -8,6 +8,7 @@ import Footer from '@components/Footer/Footer';
 import { StepConfigType, StepDataType, STEPS } from 'types/steps';
 import Button, { BUTTON_BG_COLOR, BUTTON_COLOR, BUTTON_SIZE } from '@components/Button/Button';
 import { signXDataPass } from '@utils/signX';
+import * as Toast from '@components/Toast/Toast';
 
 type SignXDataProps = {
   onSuccess: (data: StepDataType<STEPS.define_proposal_title>) => void;
@@ -26,7 +27,7 @@ const SignXData: FC<SignXDataProps> = ({ onSuccess, onBack, data, header }) => {
 
   const handleSubmit = async () => {
     const res = await signXDataPass(jsonData, type);
-    console.log({ res });
+    res && Toast.successToast(res.response);
   };
 
   return (
