@@ -1,25 +1,27 @@
 {
-  "siteName": "config.siteName",
-  "siteUrl": "config.siteUrl",
-  "siteTitleMeta": "config.siteTitleMeta",
-  "siteDescriptionMeta": "config.siteDescriptionMeta",
+  "siteName": "P2P Send",
+  "siteUrl": "https://p2psend.jambo.earth",
+  "siteTitleMeta": "P2P Send",
+  "siteDescriptionMeta": "Send tokens to your friends on the cosmos network.",
+  "wcNamespace": "ixo",
   "fontUrl": "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap",
   "fontName": "Roboto",
   "headerShowName": true,
   "headerShowLogo": true,
-  "about": "config.about",
+  "setStylesDone": false,
+  "about": "Welcome to P2P Send. This Web Application (The Website) enables you to send and receive crypto-tokens on the Impact Hub, which is a Cosmos application blockchain connected to the Internet of Blockchains. The Website is hosted by ixo.world AG, Liechtenstein (The Company). <br />The Company does not charge you for using The Website and does not collect any of your personal information. <br />The Website is provided for your personal use only, for the purpose of interacting with and learning about Web3 networks and the Internet of Impact. <br />By using The Website, you accept and agree to be bound by The Company's <a href='https://my.jambo.earth/legal/termsOfUse'>Terms of Use</a> and <a href='https://my.jambo.earth/legal/privacyPolicy'>Privacy Policy</a>. <br />You agree that you will not use the website for any illegal purpose, or in violation of any local, state, national, or international law. <br />The Website is provided \"as is\" and \"as available\", without any warranty or condition of any kind. <br />You agree to indemnify The Company against any claims, liabilities, damages, losses and expenses, including reasonable attorneys' fees and costs, arising out of or in any way connected with your access to or use of The Website App; Your User Content; Your violation of the Terms of Use; or Your willful misconduct. <br />If you do not agree to these Terms, please do not use The Website. <br />You may contact the developers of This Website by email assistant@ixo.world",
   "termsAndConditions": "https://my.jambo.earth/legal/termsOfUse",
   "actions": [
     {
-      "id": "eKXPPhewkJDLbE1bq1iboz",
+      "id": "eKXPPhewkJDLbE1bq1ibo7",
       "steps": [
-        {
-          "id": "select_token_and_amount",
-          "name": "Select token and amount"
-        },
         {
           "id": "get_receiver_address",
           "name": "Get receiver address"
+        },
+        {
+          "id": "select_token_and_amount",
+          "name": "Select token and amount"
         },
         {
           "id": "bank_MsgSend",
@@ -27,144 +29,28 @@
         }
       ],
       "name": "Send",
-      "description": "Crypto Send",
-      "image": "eKXPPhewkJDLbE1bq1iboa.png"
+      "description": "Crypto Wallet",
+      "image": "eKXPPhewkJDLbE1bq1ibo7.png"
     },
     {
-      "id": "eKXPPhewkJDLbE1bq1ib78",
+      "id": "eKXPPhewkJDLbE1bq1ibo8",
       "steps": [
-        {
-          "id": "select_token_and_amount",
-          "name": "Select token and amount"
-        },
         {
           "id": "get_receiver_address",
           "name": "Get receiver address"
+        },
+        {
+          "id": "select_token_and_amount",
+          "name": "Select token and amount"
         },
         {
           "id": "bank_MsgMultiSend",
           "name": "Review and sign"
         }
       ],
-      "name": "Multi Send",
-      "description": "Crypto Send",
-      "image": "eKXPPhewkJDLbE1bq1iboa.png"
-    },
-    {
-      "id": "eKXPPhewkJDLbE1bq1iboa",
-      "steps": [
-        {
-          "id": "get_validator_delegate",
-          "name": "Get validator address"
-        },
-        {
-          "id": "select_amount_delegate",
-          "name": "Define amount to delegate"
-        },
-        {
-          "id": "staking_MsgDelegate",
-          "name": "Review and sign"
-        }
-      ],
-      "name": "Delegate",
-      "description": "Delegate tokens on the IXO Network",
-      "image": "eKXPPhewkJDLbE1bq1iboa.png"
-    },
-    {
-      "id": "eKXPPhewkJDLbE1bq1ibob",
-      "steps": [
-        {
-          "id": "get_delegated_validator_undelegate",
-          "name": "Get delegation validator address"
-        },
-        {
-          "id": "select_amount_undelegate",
-          "name": "Define amount to undelegate"
-        },
-        {
-          "id": "staking_MsgUndelegate",
-          "name": "Review and sign"
-        }
-      ],
-      "name": "Undelegate",
-      "description": "Undelegate tokens on the IXO Network",
-      "image": "eKXPPhewkJDLbE1bq1ibob.png"
-    },
-    {
-      "id": "eKXPPhewkJDLbE1bq1iboc",
-      "steps": [
-        {
-          "id": "get_delegated_validator_redelegate",
-          "name": "Get delegation validator address"
-        },
-        {
-          "id": "select_amount_redelegate",
-          "name": "Define amount to redelegate"
-        },
-        {
-          "id": "get_validator_redelegate",
-          "name": "Get validator address"
-        },
-        {
-          "id": "staking_MsgRedelegate",
-          "name": "Review and sign"
-        }
-      ],
-      "name": "Redelegate",
-      "description": "Redelegate tokens on the IXO Network",
-      "image": "eKXPPhewkJDLbE1bq1iboc.png"
-    },
-    {
-      "id": "eKXPPhewkJDLbE1bq1ibod",
-      "steps": [
-        {
-          "id": "distribution_MsgWithdrawDelegatorReward",
-          "name": "Review and sign"
-        }
-      ],
-      "name": "Claim Rewards",
-      "description": "Claim rewards on your delegations.",
-      "image": "eKXPPhewkJDLbE1bq1ibod.png"
-    },
-    {
-      "id": "eKXPPhewkJDLbE1bq1iboe",
-      "steps": [
-        {
-          "id": "select_proposal",
-          "name": "Select proposal"
-        },
-        {
-          "id": "gov_MsgVote",
-          "name": "Review and sign"
-        }
-      ],
-      "name": "Vote",
-      "description": "Vote on proposals on the IXO Network",
-      "image": "eKXPPhewkJDLbE1bq1iboa.png"
-    },
-    {
-      "id": "eKXPPhewkJDLbE1bq1ibof",
-      "steps": [
-        {
-          "id": "define_proposal_title",
-          "name": "Proposal Title"
-        },
-        {
-          "id": "define_proposal_description",
-          "name": "Proposal Description"
-        },
-        {
-          "id": "define_proposal_deposit",
-          "name": "Proposal Initial Deposit"
-        },
-        {
-          "id": "gov_MsgSubmitProposal",
-          "name": "Review and sign"
-        }
-      ],
-      "name": "Text Proposal",
-      "description": "Create a text proposals on the IXO Network",
-      "image": "eKXPPhewkJDLbE1bq1iboa.png"
+      "name": "MultiSend",
+      "description": "Crypto Wallet",
+      "image": "eKXPPhewkJDLbE1bq1ibo8.png"
     }
   ]
 }
